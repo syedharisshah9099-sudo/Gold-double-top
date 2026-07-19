@@ -13,3 +13,4 @@ def get_market_data():
         return None
 
     return data.tail(45)
+    
