@@ -1,20 +1,51 @@
-from data import get_market_data
+from scanner import get_gold_data
 from pattern import detect_double_top
 from telegram import send_alert
+from state import load_state, save_state
+
 
 def main():
-    print("Gold Double Top Trading Alert System Started...")
 
-    data = get_market_data()
+    print("========================================")
+    print(" Gold Double Top Trading Alert System")
+    print("========================================")
+
+    state = load_state()
+
+    data = get_gold_data()
 
     if data is None:
         print("No market data received.")
         return
 
-    if detect_double_top(data):
-        send_alert("🚨 Gold Double Top Alert!\n90% Pattern Completed.")
+    signal = detect_double_top(data)
+
+    if signal:
+
+        if not state.get("alert_sent", False):
+
+            send_alert(
+                "🚨 GOLD DOUBLE TOP DETECTED\n\n"
+                "Pattern Completion: 90%+\n"
+                "Timeframe: M1\n"
+                "Symbol: GC=F"
+            )
+
+            state["alert_sent"] = True
+            save_state(state)
+
+            print("Telegram Alert Sent")
+
+        else:
+            print("Alert already sent.")
+
     else:
-        print("No Double Top Found.")
+
+        state["alert_sent"] = False
+        save_state(state)
+
+        print("No Double Top Pattern")
+
 
 if __name__ == "__main__":
     main()
