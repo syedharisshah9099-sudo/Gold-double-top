@@ -1,4 +1,4 @@
-from scanner import get_gold_data
+from data import get_market_data
 from pattern import detect_double_top
 from telegram import send_alert
 from state import load_state, save_state
@@ -12,7 +12,7 @@ def main():
 
     state = load_state()
 
-    data = get_gold_data()
+    data = get_market_data()
 
     if data is None:
         print("No market data received.")
