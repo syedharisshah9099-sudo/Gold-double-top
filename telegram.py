@@ -14,7 +14,9 @@ def send_alert(message):
     }
 
     try:
-        requests.post(url, json=payload, timeout=10)
-        print("Telegram alert sent.")
+        response = requests.post(url, json=payload, timeout=10)
+
+print(response.status_code)
+print(response.text)
     except Exception as e:
         print("Telegram Error:", e)
