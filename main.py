@@ -45,6 +45,7 @@ def main():
         save_state(state)
 
         print("No Double Top Pattern")
+        send_alert("✅ Test Message from Gold Scanner")
 
 
 if __name__ == "__main__":
